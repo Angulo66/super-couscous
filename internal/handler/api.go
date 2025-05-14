@@ -10,7 +10,7 @@ type APIHandler struct {
 	encoder http_response_encoder.ResponseEncoder
 }
 
-// NewAPIHandler creates a new API handler
+// NewAPIHandler returns a new APIHandler initialized with the provided response encoder.
 func NewAPIHandler(encoder http_response_encoder.ResponseEncoder) *APIHandler {
 	return &APIHandler{encoder: encoder}
 }

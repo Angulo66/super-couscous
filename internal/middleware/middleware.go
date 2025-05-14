@@ -11,6 +11,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// AuthMiddleware enforces Bearer token authentication for incoming HTTP requests.
+// It checks the Authorization header against the configured token and responds with HTTP 401 Unauthorized if the token is invalid.
 func AuthMiddleware(cfg *config.Config, next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("Authorization")
@@ -23,6 +25,7 @@ func AuthMiddleware(cfg *config.Config, next http.Handler) http.Handler {
 	})
 }
 
+// LoggingMiddleware logs HTTP request details and the duration of each request.
 func LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
@@ -45,6 +48,7 @@ type RateLimiter struct {
 	cleanupInterval time.Duration          // interval for cleanup goroutine
 }
 
+// NewRateLimit creates a new RateLimiter that limits requests per IP within the specified window size.
 func NewRateLimit(maxRequests int, windowSize time.Duration) *RateLimiter {
 	rl := &RateLimiter{
 		requests:        make(map[string][]time.Time),
@@ -120,6 +124,8 @@ func (rl *RateLimiter) isAllowed(ip string) bool {
 	return true
 }
 
+// RateLimiterMiddleware returns an HTTP middleware that enforces rate limiting per client IP using the provided RateLimiter.
+// Requests exceeding the allowed rate receive an HTTP 429 Too Many Requests response.
 func RateLimiterMiddleware(rl *RateLimiter) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -135,6 +141,7 @@ func RateLimiterMiddleware(rl *RateLimiter) func(http.Handler) http.Handler {
 	}
 }
 
+// getClientIP extracts the client IP address from an HTTP request, prioritizing proxy headers if present.
 func getClientIP(r *http.Request) string {
 	// Check X-Forwarded-For header
 	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {

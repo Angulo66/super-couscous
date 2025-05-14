@@ -9,6 +9,7 @@ type HelloHandler struct {
 	encoder http_response_encoder.ResponseEncoder
 }
 
+// NewHelloHandler creates a new HelloHandler with the provided response encoder.
 func NewHelloHandler(encoder http_response_encoder.ResponseEncoder) *HelloHandler {
 	return &HelloHandler{encoder: encoder}
 }

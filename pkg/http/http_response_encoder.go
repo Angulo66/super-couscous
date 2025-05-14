@@ -22,7 +22,7 @@ type Response struct {
 // JSONEncoder implements ResponseEncoder for JSON responses
 type JSONEncoder struct{}
 
-// NewJSONEncoder creates a new JSON response encoder
+// NewJSONEncoder returns a new instance of JSONEncoder for encoding HTTP responses in JSON format.
 func NewJSONEncoder() *JSONEncoder {
 	return &JSONEncoder{}
 }
@@ -41,7 +41,7 @@ func (e *JSONEncoder) SendError(w http.ResponseWriter, statusCode int, errorMsg 
 	sendJson(w, statusCode, Response{Success: false, Error: errorMsg})
 }
 
-// sendJson is a helper function to send JSON responses
+// sendJson writes the given Response as a JSON payload to the HTTP response with the specified status code.
 func sendJson(w http.ResponseWriter, statusCode int, response Response) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
@@ -51,11 +51,12 @@ func sendJson(w http.ResponseWriter, statusCode int, response Response) {
 // For backward compatibility
 var defaultEncoder = NewJSONEncoder()
 
-// SendSuccess uses the default encoder to send a successful reponse
+// SendSuccess sends a standardized JSON success response using the default encoder.
 func SendSuccess(w http.ResponseWriter, data interface{}, message string) {
 	defaultEncoder.SendSuccess(w, data, message)
 }
 
+// SendError sends a standardized JSON error response with the specified HTTP status code and error message.
 func SendError(w http.ResponseWriter, statusCode int, errorMsg string) {
 	defaultEncoder.SendError(w, statusCode, errorMsg)
 }

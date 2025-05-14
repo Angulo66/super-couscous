@@ -22,6 +22,9 @@ type Config struct {
 	}
 }
 
+// LoadConfig loads application configuration from a YAML file and environment variables.
+// It searches for a file named "config.yaml" in the current and parent directories, allowing environment variables to override file values.
+// Returns a pointer to the populated Config struct or an error if loading or unmarshaling fails.
 func LoadConfig() (*Config, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")

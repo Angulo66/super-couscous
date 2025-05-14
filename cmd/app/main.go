@@ -14,6 +14,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// main initializes configuration, sets up middleware and handlers, and starts the HTTP server.
 func main() {
 	cfg, err := config.LoadConfig()
 	if err != nil {
