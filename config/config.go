@@ -32,9 +32,7 @@ func LoadConfig(loader ConfigLoader) (*Config, error) {
 		loader = DefaultViperLoader()
 	}
 
-	if err := loader.SetDefaults(); err != nil {
-		return nil, err
-	}
+	loader.SetDefaults()
 
 	var config Config
 	if err := loader.Load(&config); err != nil {

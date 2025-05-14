@@ -22,13 +22,12 @@ func DefaultViperLoader() *ViperLoader {
 	return NewViperLoader("config", "yaml", []string{".", ".."}, true)
 }
 
-func (v *ViperLoader) SetDefaults() error {
+func (v *ViperLoader) SetDefaults() {
 	viper.SetDefault("server.port", 8080)
 	viper.SetDefault("server.debug", false)
 	viper.SetDefault("ratelimit.enabled", false)
 	viper.SetDefault("ratelimit.max_requests", 100)
 	viper.SetDefault("ratelimit.window_size", "1m")
-	return nil
 }
 
 func (v *ViperLoader) Load(cfg interface{}) error {
