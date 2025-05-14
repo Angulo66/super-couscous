@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// ResponseEncoder defines the interface for encoding HTTP responses
+// ResponseEncoder defines the interface for encoding HTTP responses allows for extension
 type ResponseEncoder interface {
 	SendSuccess(w http.ResponseWriter, data interface{}, message string)
 	SendError(w http.ResponseWriter, statusCode int, errorMsg string)
@@ -21,8 +21,7 @@ type Response struct {
 }
 
 // JSONEncoder implements ResponseEncoder for JSON responses
-type JSONEncoder struct {
-}
+type JSONEncoder struct{}
 
 // NewJSONEncoder creates a new JSON response encoder
 func NewJSONEncoder() *JSONEncoder {
@@ -50,16 +49,4 @@ func sendJson(w http.ResponseWriter, statusCode int, response Response) {
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		fmt.Println(err)
 	}
-}
-
-// For backward compatibility
-var defaultEncoder = NewJSONEncoder()
-
-// SendSuccess uses the default encoder to send a successful reponse
-func SendSuccess(w http.ResponseWriter, data interface{}, message string) {
-	defaultEncoder.SendSuccess(w, data, message)
-}
-
-func SendError(w http.ResponseWriter, statusCode int, errorMsg string) {
-	defaultEncoder.SendError(w, statusCode, errorMsg)
 }

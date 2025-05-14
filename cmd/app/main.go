@@ -15,10 +15,19 @@ import (
 )
 
 func main() {
-	cfg, err := config.LoadConfig()
+	// Use the default config loader
+	cfg, err := config.LoadDefaultConfig()
 	if err != nil {
-		log.Fatal().Msgf("failed to load config: %v", err)
+		log.Fatal().Msgf("failed to load config %v", err)
 	}
+
+	// Or use a custom loader
+	// loader := config.NewViperLoader("custom-config", "json", []string{"./config"}, true)
+	// cfg, err := config.LoadConfig(loader)
+	// if err != nil {
+	// 	log.Fatal().Msgf("failed to load config %v", err)
+	// }
+
 	log.Info().Msgf("Starting server on port: %d", cfg.Server.Port)
 
 	//zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
