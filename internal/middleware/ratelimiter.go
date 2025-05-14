@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"go-basics/config"
 	"net"
 	"net/http"
 	"strings"
@@ -10,31 +9,6 @@ import (
 
 	"github.com/rs/zerolog/log"
 )
-
-func AuthMiddleware(cfg *config.Config, next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		token := r.Header.Get("Authorization")
-		if token != "Bearer "+cfg.Auth.Token {
-			log.Error().Msg("Unauthorized request")
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
-			return
-		}
-		next.ServeHTTP(w, r)
-	})
-}
-
-func LoggingMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		start := time.Now()
-		next.ServeHTTP(w, r)
-		log.Info().
-			Str("method", r.Method).
-			Str("ip", getClientIP(r)).
-			Stringer("url", r.URL).
-			Dur("duration", time.Since(start)).
-			Msg("request completed")
-	})
-}
 
 // Rate Limiter Middleware
 type RateLimiter struct {

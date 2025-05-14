@@ -21,7 +21,7 @@ func main() {
 	}
 	log.Info().Msgf("Starting server on port: %d", cfg.Server.Port)
 
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	//zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	debug := flag.Bool("debug", false, "enable debug logging")
 	flag.Parse()
 
@@ -55,5 +55,9 @@ func main() {
 
 	mux.Handle("/api", apiHandler)
 	mux.Handle("/api/hello", helloHandler)
-	http.ListenAndServe(fmt.Sprintf(":%d", cfg.Server.Port), muxHandler)
+
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.Server.Port), muxHandler); err != nil {
+		log.Fatal().Err(err).Msg("server failed to start")
+	}
+
 }
