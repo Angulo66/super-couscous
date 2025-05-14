@@ -17,6 +17,10 @@ func NewAPIHandler(encoder http_response_encoder.ResponseEncoder) *APIHandler {
 
 // ServeHTTP handle HTTP requests to the /api endpoint
 func (h *APIHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		h.encoder.SendError(w, http.StatusMethodNotAllowed, "Method not allowed")
+		return
+	}
 	// Return API information and available endpoints
 	apiInfo := map[string]interface{}{
 		"name":        "Go API",
