@@ -47,6 +47,6 @@ func sendJson(w http.ResponseWriter, statusCode int, response Response) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 	if err := json.NewEncoder(w).Encode(response); err != nil {
-		fmt.Println(err)
+		fmt.Printf("Error encoding JSON response: %v", err)
 	}
 }

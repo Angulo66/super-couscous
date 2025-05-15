@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 	"go-basics/config"
 	"go-basics/internal/handler"
 	"go-basics/internal/middleware"
@@ -11,6 +9,9 @@ import (
 	httpresponseencoder "go-basics/pkg/http"
 	"net/http"
 	"time"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 func main() {
