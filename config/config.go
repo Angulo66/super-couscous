@@ -27,6 +27,23 @@ type RateLimitConfig struct {
 	WindowSize  string `mapstructure:"windowSize"`  // Interval for rate limit (e.g., 1m)
 }
 
+// LoadConfig loads application configuration using the provided ConfigLoader.
+// If loader is nil, it uses the DefaultViperLoader.
+//
+// Example usage:
+//
+//	// Use the default config loader
+//	cfg, err := config.LoadDefaultConfig()
+//	if err != nil {
+//		log.Fatal().Msgf("failed to load config %v", err)
+//	}
+//
+//	// Or use a custom loader
+//	loader := config.NewViperLoader("custom-config", "json", []string{"./config"}, true)
+//	cfg, err := config.LoadConfig(loader)
+//	if err != nil {
+//		log.Fatal().Msgf("failed to load config %v", err)
+//	}
 func LoadConfig(loader ConfigLoader) (*Config, error) {
 	if loader == nil {
 		loader = DefaultViperLoader()

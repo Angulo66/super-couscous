@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// ResponseEncoder defines the interface for encoding HTTP responses allows for extension
+// ResponseEncoder defines the interface for encoding HTTP responses allowing for extension
 type ResponseEncoder interface {
 	SendSuccess(w http.ResponseWriter, data interface{}, message string)
 	SendError(w http.ResponseWriter, statusCode int, errorMsg string)
@@ -28,7 +28,7 @@ func NewJSONEncoder() *JSONEncoder {
 	return &JSONEncoder{}
 }
 
-// sendSuccess sends a success JSON response
+// SendSuccess sendSuccess sends a success JSON response
 func (e *JSONEncoder) SendSuccess(w http.ResponseWriter, data interface{}, message string) {
 	sendJson(w, http.StatusOK, Response{
 		Success: true,
@@ -37,7 +37,7 @@ func (e *JSONEncoder) SendSuccess(w http.ResponseWriter, data interface{}, messa
 	})
 }
 
-// sendError sends an error JSON response
+// SendError sendError sends an error JSON response
 func (e *JSONEncoder) SendError(w http.ResponseWriter, statusCode int, errorMsg string) {
 	sendJson(w, statusCode, Response{Success: false, Error: errorMsg})
 }
