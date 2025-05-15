@@ -27,3 +27,4 @@ go.work.sum
 .cursor
 TASKS.md
 config.yaml
+.idea
